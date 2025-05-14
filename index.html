@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitZone Workouts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #f7f8f8, #acbb78);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      background-color: #1e1e1e;
+      width: 100%;
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ff5252;
+    }
+
+    .header {
+      margin-top: 100px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #222;
+      margin-top: 15px;
+    }
+
+    .header img {
+      max-width: 200px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .header img:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .header img {
+        max-width: 150px;
+      }
+      .header h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin: 30px 0;
+    }
+
+    .search-box {
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+      text-align: center;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .workout {
+      background: #fefefe;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      border-left: 5px solid #74b9ff;
+    }
+
+    .workout:hover {
+      transform: scale(1.02);
+    }
+
+    .workout img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .workout img:hover {
+      transform: scale(1.05);
+    }
+
+    .workout h2 {
+      font-size: 1.8rem;
+      color: #2d3436;
+    }
+
+    .workout p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .workout-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 12px 18px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .start-button {
+      background-color: #00cec9;
+      color: white;
+    }
+
+    .stop-button {
+      background-color: #ff5252;
+      color: white;
+    }
+
+    .restart-button {
+      background-color: #ffa726;
+      color: white;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .start-button:hover {
+      background-color: #0984e3;
+    }
+
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .restart-button:hover {
+      background-color: #fb8c00;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .timer-active {
+      animation: pulse 1s ease-in-out;
+      border: 2px solid #00cec9;
+    }
+
+    .timer-complete {
+      animation: complete 0.5s ease-in-out;
+      background: #e8f5e9;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes complete {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #noWorkouts {
+      text-align: center;
+      color: #d63031;
+      font-size: 18px;
+      margin-top: 10px;
+      display: none;
+      font-weight: bold;
+    }
+
+    .timer-box {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-size: 16px;
+      font-weight: 600;
+      color: #2d3436;
+      z-index: 1001;
+      border: 2px solid #00cec9;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    #history {
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #history h2 {
+      font-size: 1.8rem;
+      color: #2d3436;
+      margin-bottom: 15px;
+    }
+
+    #history ul {
+      list-style: none;
+    }
+
+    #history ul li {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 5px 0;
+    }
+
+    footer {
+      background: #2d3436;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .workout {
+        margin: 10px;
+      }
+
+      .search-box input {
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 16px;
+      }
+
+      .timer-box {
+        topobook: 100px;
+        right: 10px;
+        font-size: 14px;
+        padding: 10px;
+        min-width: auto;
+      }
+
+      .workout-buttons {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about1.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html">Workouts</a></li>
+    </ul>
+  </nav>
+
+ Hannah Arendt
+
+System: I apologize, but it seems the code was cut off. I'll complete the HTML file with the requested additions: new workouts with calorie counts, stop/restart buttons, and updated CSS. Here's the complete updated file:
+
+<xaiArtifact artifact_id="78437066-4760-4839-bf95-08541176fca9" artifact_version_id="7ae30ce0-4497-409d-8f5c-651a37b63e53" title="index.html" contentType="text/html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitZone Workouts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #f7f8f8, #acbb78);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      background-color: #1e1e1e;
+      width: 100%;
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ff5252;
+    }
+
+    .header {
+      margin-top: 100px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #222;
+      margin-top: 15px;
+    }
+
+    .header img {
+      max-width: 200px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .header img:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .header img {
+        max-width: 150px;
+      }
+      .header h1 {
+        font-size: 1.8rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin: 30px 0;
+    }
+
+    .search-box {
+      max-width: 400px;
+      margin: 0 auto 30px auto;
+      text-align: center;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .workout {
+      background: #fefefe;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 500px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      border-left: 5px solid #74b9ff;
+    }
+
+    .workout:hover {
+      transform: scale(1.02);
+    }
+
+    .workout img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .workout img:hover {
+      transform: scale(1.05);
+    }
+
+    .workout h2 {
+      font-size: 1.8rem;
+      color: #2d3436;
+    }
+
+    .workout p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .workout-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 12px 18px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .start-button {
+      background-color: #00cec9;
+      color: white;
+    }
+
+    .stop-button {
+      background-color: #ff5252;
+      color: white;
+    }
+
+    .restart-button {
+      background-color: #ffa726;
+      color: white;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .start-button:hover {
+      background-color: #0984e3;
+    }
+
+    .stop-button:hover {
+      background-color: #d32f2f;
+    }
+
+    .restart-button:hover {
+      background-color: #fb8c00;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .timer-active {
+      animation: pulse 1s ease-in-out;
+      border: 2px solid #00cec9;
+    }
+
+    .timer-complete {
+      animation: complete 0.5s ease-in-out;
+      background: #e8f5e9;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes complete {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .filter-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #noWorkouts {
+      text-align: center;
+      color: #d63031;
+      font-size: 18px;
+      margin-top: 10px;
+      display: none;
+      font-weight: bold;
+    }
+
+    .timer-box {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: #fff;
+      padding: 12px 16px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      font-size: 16px;
+      font-weight: 600;
+      color: #2d3436;
+      z-index: 1001;
+      border: 2px solid #00cec9;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    #history {
+      background: #fff;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    #history h2 {
+      font-size: 1.8rem;
+      color: #2d3436;
+      margin-bottom: 15px;
+    }
+
+    #history ul {
+      list-style: none;
+    }
+
+    #history ul li {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 5px 0;
+    }
+
+    footer {
+      background: #2d3436;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .workout {
+        margin: 10px;
+      }
+
+      .search-box input {
+        font-size: 14px;
+      }
+
+      button {
+        font-size: 16px;
+      }
+
+      .timer-box {
+        top: 100px;
+        right: 10px;
+        font-size: 14px;
+        padding: 10px;
+        min-width: auto;
+      }
+
+      .workout-buttons {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about1.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html">Workouts</a></li>
+    </ul>
+  </nav>
+
+  <div id="timer" class="timer-box"></div>
+  
+  <div class="header">
+    <img src="162.jpg" alt="Gym Hub Logo" />
+    <h1>Welcome to Gym Hub</h1>
+  </div>
+
+  <div class="container">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search workouts..." onkeyup="filterWorkouts()" />
+      <div id="noWorkouts">No workouts found</div>
+    </div>
+
+    <div class="filter-buttons">
+      <button onclick="filterByTag('all')">All</button>
+      <button onclick="filterByTag('strength')">Strength</button>
+      <button onclick="filterByTag('cardio')">Cardio</button>
+      <button onclick="filterByTag('core')">Core</button>
+      <button onclick="filterByTag('home')">Home</button>
+      <button onclick="filterByTag('gym')">Gym</button>
+    </div>
+
+    <div id="workoutList">
+      <div class="workout" data-name="Push-Ups" data-tags="strength core chest home">
+        <h2>Push-Ups</h2>
+        <p>3 sets of 15 reps (~100 calories)</p>
+        <img src="pushups.jpg" alt="Man performing push-ups">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Push-Ups', 60, this, 100)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Push-Ups', 60, this, 100)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Plank" data-tags="strength core home">
+        <h2>Plank</h2>
+        <p>Hold for 60 seconds (~50 calories)</p>
+        <img src="plank (2).jpg" alt="Woman doing plank">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Plank', 60, this, 50)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Plank', 60, this, 50)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Jumping Jacks" data-tags="cardio home">
+        <h2>Jumping Jacks</h2>
+        <p>2 minutes of jumping jacks (~120 calories)</p>
+        <img src="jumping jacks.jpg" alt="Jumping jacks">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Jumping Jacks', 120, this, 120)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Jumping Jacks', 120, this, 120)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Squats" data-tags="legs strength gym home">
+        <h2>Squats</h2>
+        <p>4 sets of 15 reps (~120 calories)</p>
+        <img src="squats.jpg" alt="Bodyweight squats">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Squats', 90, this, 120)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Squats', 90, this, 120)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Lunges" data-tags="legs strength home">
+        <h2>Lunges</h2>
+        <p>3 sets of 12 reps per leg (~100 calories)</p>
+        <img src="lunges.jpg" alt="Lunges">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Lunges', 90, this, 100)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Lunges', 90, this, 100)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Tricep Dips" data-tags="triceps strength gym home">
+        <h2>Tricep Dips</h2>
+        <p>3 sets of 12 reps (~80 calories)</p>
+        <img src="tricep dips.jpg" alt="Tricep dips">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Tricep Dips', 60, this, 80)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Tricep Dips', 60, this, 80)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="High Knees" data-tags="cardio home">
+        <h2>High Knees</h2>
+        <p>2 minutes, 3 sets (~150 calories)</p>
+        <img src="high knees.jpg" alt="High knees">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('High Knees', 120, this, 150)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('High Knees', 120, this, 150)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Treadmill Run" data-tags="cardio gym">
+        <h2>Treadmill Run</h2>
+        <p>20 minutes at moderate pace (~200 calories)</p>
+        <img src="treadmill run.jpg" alt="Treadmill">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Treadmill Run', 1200, this, 200)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Treadmill Run', 1200, this, 200)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Biceps Curls" data-tags="strength upperbody home">
+        <h2>Bicep curls</h2>
+        <p>3 sets of 30 seconds (~80 calories)</p>
+        <img src="side-view-fit-man-with-tank-top-working-out-with-weight.jpg" alt="Biceps curls">
+        <p>3 sets of 15 reps (~100 calories)</p>
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Biceps', 90, this, 80)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Biceps', 90, this, 80)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Deadlifts" data-tags="strength back gym">
+        <h2>Deadlifts</h2>
+        <p>4 sets of 8 reps (~120 calories)</p>
+        <img src="bodybuilding-concept-with-man-working-out-with-barbell.jpg" alt="Deadlifts">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Deadlifts', 120, this, 120)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Deadlifts', 120, this, 120)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Calf raise" data-tags="legs strength home">
+        <h2>calf Raise</h2>
+        <p>3 sets of 20 reps (~70 calories)</p>
+        <img src="calf-raise.jpg" alt="Caldf raise">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Calf raise', 60, this, 70)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('calf raise', 60, this, 70)">Restart</button>
+        </div>
+      </div>
+
+      <div class="workout" data-name="Squat Jumps" data-tags="legs cardio gym">
+        <h2>Squat Jumps</h2>
+        <p>3 sets of 15 reps (~100 calories)</p>
+        <img src="jump-squat-exercise-men-workout-fitness-aerobic-exercises_476141-853.avif" alt="Squat Jumps">
+        <div class="workout-buttons">
+          <button class="start-button" onclick="startWorkout('Squat Jump', 90, this, 100)">Start</button>
+          <button class="stop-button" onclick="stopWorkout(this)">Stop</button>
+          <button class="restart-button" onclick="restartWorkout('Squat Jumps', 90, this, 100)">Restart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="history">
+    <h2>📋 Workout History</h2>
+    <ul id="historyList"></ul>
+  </div>
+
+  <footer>
+    © 2025 Gym Hub | Let's stay fit together!
+  </footer>
+
+  <script>
+    const startSound = new Audio('https://www.soundjay.com/buttons/button-3.mp3');
+    const completeSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ring-01.mp3');
+    let activeInterval = null;
+
+    function startWorkout(name, duration, button, calories) {
+      const timerDiv = document.getElementById('timer');
+      const workoutCard = button.parentElement.parentElement;
+      let timeLeft = duration;
+
+      startSound.play().catch(e => console.log('Sound play failed:', e));
+      workoutCard.classList.add('timer-active');
+
+      if (activeInterval) clearInterval(activeInterval);
+
+      activeInterval = setInterval(() => {
+        timerDiv.textContent = `⏱ ${name} - ${timeLeft}s`;
+        timeLeft--;
+        if (timeLeft < 0) {
+          clearInterval(activeInterval);
+          activeInterval = null;
+          timerDiv.textContent = `${name} complete! ✅ (${calories} cal)`;
+          workoutCard.classList.remove('timer-active');
+          workoutCard.classList.add('timer-complete');
+          completeSound.play().catch(e => console.log('Sound play failed:', e));
+          saveWorkout(name, calories);
+          setTimeout(() => {
+            workoutCard.classList.remove('timer-complete');
+            timerDiv.textContent = "";
+          }, 1000);
+        }
+      }, 1000);
+    }
+
+    function stopWorkout(button) {
+      const workoutCard = button.parentElement.parentElement;
+      if (activeInterval) {
+        clearInterval(activeInterval);
+        activeInterval = null;
+        document.getElementById('timer').textContent = "";
+        workoutCard.classList.remove('timer-active');
+      }
+    }
+
+    function restartWorkout(name, duration, button, calories) {
+      stopWorkout(button);
+      startWorkout(name, duration, button, calories);
+    }
+
+    function filterByTag(tag) {
+      const workouts = document.querySelectorAll('.workout');
+      const noWorkoutsDiv = document.getElementById('noWorkouts');
+      let visibleCount = 0;
+
+      workouts.forEach(workout => {
+        const tags = workout.getAttribute('data-tags');
+        if (tag === 'all' || tags.includes(tag)) {
+          workout.style.display = "block";
+          visibleCount++;
+        } else {
+          workout.style.display = "none";
+        }
+      });
+
+      noWorkoutsDiv.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    function saveWorkout(name, calories) {
+      const now = new Date();
+      const history = JSON.parse(localStorage.getItem('workoutHistory')) || [];
+      history.push(`${name} - ${now.toLocaleString()} (${calories} cal)`);
+      localStorage.setItem('workoutHistory', JSON.stringify(history));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('historyList');
+      const history = JSON.parse(localStorage.getItem('workoutHistory')) || [];
+      list.innerHTML = "";
+      history.slice().reverse().forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+
+    function filterWorkouts() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const workouts = document.querySelectorAll('.workout');
+      const noWorkoutsDiv = document.getElementById('noWorkouts');
+      let visibleCount = 0;
+
+      workouts.forEach(workout => {
+        const name = workout.getAttribute('data-name').toLowerCase();
+        if (name.includes(input)) {
+          workout.style.display = "block";
+          visibleCount++;
+        } else {
+          workout.style.display = "none";
+        }
+      });
+
+      noWorkoutsDiv.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    window.onload = renderHistory;
+  </script>
+</body>
+</html>

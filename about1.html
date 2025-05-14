@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Hub - Fitness Journey</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(to right, #000000, #434343);
+            color: white;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(255, 255, 255, 0.2);
+        }
+
+        nav {
+            background-color: #fff;
+            width: 100%;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #e60023;
+            text-decoration: underline;
+        }
+
+        .about-section {
+            width: 80%;
+            max-width: 1000px;
+            background-color: #fff;
+            margin: 40px auto;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-section h2 {
+            text-align: center;
+            color: #111;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e60023;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .about-section h3 {
+            color: #e60023;
+            margin-top: 30px;
+        }
+
+        .about-section p {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .about-section ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .about-section ul li {
+            margin-bottom: 8px;
+            list-style: circle;
+        }
+
+        a {
+            color: #e60023;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #c7001e;
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            width: 100%;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .header img {
+                max-width: 120px;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            nav ul li a {
+                font-size: 16px;
+            }
+
+            .about-section {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about1.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html">Workouts</a></li>
+        </ul>
+    </nav>
+
+    <div class="header">
+        <img src="162.jpg" alt="Gym Hub Logo">
+        <h1>Welcome to Gym Hub</h1>
+    </div>
+
+    <div class="about-section">
+        <h2>About Us</h2>
+        <p>Welcome to <strong>GYM HUB</strong>! We're passionate about helping people lead healthier and happier lives through fitness.</p>
+
+        <h3>Our Mission</h3>
+        <p>Our mission is to make fitness accessible to everyone, regardless of age or fitness level. We believe that every individual has the potential to improve their physical and mental health, and we’re here to support you every step of the way.</p>
+
+        <h3>Our Values</h3>
+        <ul>
+            <li><strong>Empowerment:</strong> We believe in empowering people to take control of their health and wellness.</li>
+            <li><strong>Community:</strong> We are committed to building a supportive fitness community that motivates and encourages each other.</li>
+            <li><strong>Education:</strong> Knowledge is power. We provide educational resources that help you make informed fitness decisions.</li>
+        </ul>
+
+        <h3>Our Story</h3>
+        <p>Founded by a group of fitness enthusiasts, we started this website with one goal in mind: to create a space where people could find trusted workout routines, helpful tips, and ongoing support on their fitness journeys.</p>
+
+        <h3>Join Us Today</h3>
+        <p>Are you ready to start your fitness journey? Join us today, and let's work together to achieve your fitness goals. <a href="registration.html">Sign up now</a> to get started!</p>
+    </div>
+
+    <footer>
+        <p>© 2025 Gym Hub | All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>

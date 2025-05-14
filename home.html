@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gym Hub - Fitness Journey</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(to right, #f7f8f8, #acbb78);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    nav {
+      background-color: #1e1e1e;
+      width: 100%;
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    nav ul li {
+      margin: 0 20px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ff5252;
+    }
+
+    .header {
+      margin-top: 100px;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .header img {
+      width: 120px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      color: #222;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .image-container img {
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 15px;
+      margin: 30px auto;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .image-container img:hover {
+      transform: scale(1.03);
+    }
+
+    .quote {
+      font-style: italic;
+      color: #d63031;
+      font-size: 1.5rem;
+      margin: 20px auto;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .container {
+      background: #fff;
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin: 30px 0;
+    }
+
+    .container section {
+      margin-bottom: 25px;
+      border-left: 5px solid #74b9ff;
+      padding-left: 20px;
+    }
+
+    .container section h2 {
+      font-size: 1.8rem;
+      color: #2d3436;
+    }
+
+    .container section p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .registration-form {
+      background: #fff;
+      padding: 30px;
+      margin: 20px 0;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .registration-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .registration-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .registration-form input,
+    .registration-form select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .registration-form button {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00cec9;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .registration-form button:hover {
+      background-color: #0984e3;
+    }
+
+    .response-message {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .response-message.error { color: #d63031; }
+    .response-message.success { color: #00b894; }
+
+    footer {
+      background: #2d3436;
+      color: #fff;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .header h1 {
+        font-size: 1.8rem;
+      }
+
+      .quote {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about1.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="index.html">Workouts</a></li>
+    </ul>
+  </nav>
+
+<div class="header">
+  <img src="162.jpg" alt="Gym Hub Logo" />
+  <h1>Welcome to Gym Hub</h1>
+</div>
+
+
+  <!-- Main Image -->
+  <div class="image-container">
+    <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Gym Workout" />
+  </div>
+
+  <!-- Quote -->
+  <div class="quote">
+    <p>"Gym is the only place where we invest money to earn pain."</p>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="container">
+    <main>
+      <section>
+        <h2>About Us</h2>
+        <p>Our Gym Hub provides a diverse range of physical and educational resources, including hands-on training programs designed to empower individuals of all ages.</p>
+      </section>
+      <section>
+        <h2>Our Programs</h2>
+        <p>We offer specialized courses in Movement Coaching, Exercise Physiology, Lifestyle Interventions, and Fitness Business & Marketing led by expert instructors.</p>
+      </section>
+      <section>
+        <h2>Our Facility</h2>
+        <img src="1428053.jpg" alt="Gym Facility" style="width:100%; border-radius:12px; margin-top:10px;" />
+        <p>Certified by the National Academy of Sports Medicine (NASM), our facility is equipped with state-of-the-art equipment and technology to ensure a safe and effective workout experience.</p>
+      </section>
+    </main>
+  </div>
+
+  <div class="registration-form">
+    <h2>Register to Start Your Fitness Journey</h2>
+    <form id="registration-form" name="registrationForm" onsubmit="return validateForm()">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Your email" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Create password" required />
+
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" required>
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="age">Age</label>
+      <input type="number" id="age" name="age" placeholder="Your age" required />
+
+      <label for="phone">Phone</label>
+      <input type="text" id="phone" name="phone" placeholder="Your phone number" required />
+
+      <button type="submit">Register</button>
+    </form>
+    <div class="response-message" id="response-message"></div>
+  </div>
+
+   <footer>
+    <p>© 2025 Gym Hub | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    function validateForm() {
+      const form = document.forms["registrationForm"];
+      const name = form["name"].value.trim();
+      const email = form["email"].value.trim();
+      const password = form["password"].value;
+      const gender = form["gender"].value;
+      const age = form["age"].value;
+      const phone = form["phone"].value.trim();
+      const responseMessage = document.getElementById("response-message");
+
+      responseMessage.innerHTML = "";
+
+      if (!name || !email || !password || !gender || !age || !phone) {
+        responseMessage.className = "response-message error";
+        responseMessage.innerHTML = "All fields must be filled out.";
+        return false;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        responseMessage.className = "response-message error";
+        responseMessage.innerHTML = "Please enter a valid email address.";
+        return false;
+      }
+
+      if (isNaN(age) || age < 16) {
+        responseMessage.className = "response-message error";
+        responseMessage.innerHTML = "Age must be a number and at least 16.";
+        return false;
+      }
+
+      if (!/^\d{10}$/.test(phone)) {
+        responseMessage.className = "response-message error";
+        responseMessage.innerHTML = "Phone number must be exactly 10 digits and contain only numbers.";
+        return false;
+      }
+
+      if (password.length < 6) {
+        responseMessage.className = "response-message error";
+        responseMessage.innerHTML = "Password must be at least 6 characters.";
+        return false;
+      }
+
+      responseMessage.className = "response-message success";
+      responseMessage.innerHTML = "Registration successful! Redirecting to workouts...";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1000); 
+      return false;
+    }
+  </script>
+</body>
+</html>
